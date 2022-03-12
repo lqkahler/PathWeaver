@@ -47,7 +47,7 @@
     -fx-stroke: #101824;
     -fx-stroke-width: 2px;
     -fx-cursor: hand;
-    -fx-fill: my-color;
+    -fx-fill: #00000055;
 }
 
 .waypoint:selected {

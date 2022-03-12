@@ -103,7 +103,7 @@ public class ProjectPreferences {
 	}
 
 	private void setDefaults() {
-		values = new Values("FOOT", "Always Meters", 10.0, 60.0, 2.0, Game.INFINTE_RECHARGE_2020.getName(), null);
+		values = new Values("FOOT", "Always Meters", 10.0, 60.0, 2.0, 2.0, 2.0, Game.INFINTE_RECHARGE_2020.getName(), null);
 		updateValues();
 	}
 
@@ -242,6 +242,8 @@ public class ProjectPreferences {
 		private final double maxAcceleration;
 		@SerializedName(value = "trackWidth", alternate = "wheelBase")
 		private final double trackWidth;
+		private final double robotWidth;
+		private final double robotLength;
 		private String gameName;
 		private final String outputDir;
 
@@ -263,12 +265,14 @@ public class ProjectPreferences {
 		 *            The directory for the output files
 		 */
 		public Values(String lengthUnit, String exportUnit, double maxVelocity, double maxAcceleration,
-				double trackWidth, String gameName, String outputDir) {
+				double trackWidth, double robotWidth, double robotLength, String gameName, String outputDir) {
 			this.lengthUnit = lengthUnit;
 			this.exportUnit = exportUnit;
 			this.maxVelocity = maxVelocity;
 			this.maxAcceleration = maxAcceleration;
 			this.trackWidth = trackWidth;
+			this.robotWidth = robotWidth;
+			this.robotLength = robotLength;
 			this.gameName = gameName;
 			this.outputDir = outputDir;
 		}
@@ -291,6 +295,14 @@ public class ProjectPreferences {
 
 		public double getTrackWidth() {
 			return trackWidth;
+		}
+
+		public double getRobotWidth() {
+			return robotWidth > 0 ? robotWidth : trackWidth;
+		}
+
+		public double getRobotLength() {
+			return robotLength > 0 ? robotLength : trackWidth;
 		}
 
 		public String getGameName() {

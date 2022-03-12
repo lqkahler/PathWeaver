@@ -14,6 +14,8 @@ import javafx.scene.shape.Polygon;
 import javax.measure.Unit;
 import javax.measure.quantity.Length;
 
+import edu.wpi.first.pathweaver.ProjectPreferences.Values;
+
 /**
  * The Waypoint class represents a point on the field. This class
  * follows WPILib convention, with X being the long side of the field,
@@ -23,9 +25,6 @@ import javax.measure.quantity.Length;
  * should increase as one moves left.
  */
 public class Waypoint {
-	private static final double SIZE = 30.0;
-	private static final double ICON_X_OFFSET = (SIZE * 3D / 5D) / 16.5;
-
 	private final DoubleProperty x = new SimpleDoubleProperty();
 	private final DoubleProperty y = new SimpleDoubleProperty();
 	private final DoubleProperty tangentX = new SimpleDoubleProperty();
@@ -53,7 +52,17 @@ public class Waypoint {
 		reversed.set(reverse);
 		setCoords(position);
 
-		icon = new Polygon(0.0, SIZE / 3, SIZE, 0.0, 0.0, -SIZE / 3);
+		var projPrefs = ProjectPreferences.getInstance();
+		var field = projPrefs.getField();
+		var values = projPrefs.getValues();
+		var width = values.getRobotWidth() * field.getScale();
+		var length = values.getRobotLength() * field.getScale();
+		
+		icon = new Polygon(
+			0.0,    0.0,
+			0.0,    width,
+			length, width,
+			length, 0.0);
 		setupIcon();
 
 		tangentLine = new Line();
@@ -74,7 +83,7 @@ public class Waypoint {
 	}
 
 	private void setupIcon() {
-		icon.setLayoutX(-(icon.getLayoutBounds().getMaxX() + icon.getLayoutBounds().getMinX()) / 2 - ICON_X_OFFSET);
+		icon.setLayoutX(-(icon.getLayoutBounds().getMaxX() + icon.getLayoutBounds().getMinX()) / 2); // - ICON_X_OFFSET);
 		icon.setLayoutY(-(icon.getLayoutBounds().getMaxY() + icon.getLayoutBounds().getMinY()) / 2);
 
 		icon.translateXProperty().bind(x);
